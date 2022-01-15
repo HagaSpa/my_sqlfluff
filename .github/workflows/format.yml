@@ -1,0 +1,39 @@
+
+name: format
+
+on:
+  pull_request:
+    branches:
+    - master
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+ 
+      - uses: actions/setup-python@v2
+        with:
+            python-version: 3.10
+
+      - name: Install SQLFluff
+        run: pip install sqlfluff==0.9.1
+
+      - name: Execute SQLFluff fix
+        run: sqlfluff fix -f --dialect bigquery
+    
+      - name: Commit files
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -m "Add changes" -a
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+
