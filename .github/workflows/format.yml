@@ -41,5 +41,5 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          branch: ${{ github.ref }}
+          branch: ${{ github.event.pull_request.head.ref }}
         if: steps.changes.outputs.count > 0
