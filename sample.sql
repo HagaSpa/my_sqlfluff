@@ -1,4 +1,4 @@
-SELECT
-    a,
-    b
-FROM tbl;
+select
+    a
+    , b
+from tbl;
